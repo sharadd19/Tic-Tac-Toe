@@ -1,22 +1,24 @@
 How I will go about building this game
 
 - Select whether you want to play with another person, or a computer
+
 BOARD
-Create the board
-Get the board 
-Update the board / print the board 
+- Create the board
+- Get the board 
+- Update the board / print the board 
 
 PLAY GAME
-Get players turn 
-Place symbol on the board
-check to see if win, draw, lose
-    win (meets winning combos)
-    draw (all cells are filled and no winning combinations)
-if one of the above then end game
-if none of the above (cells are not filled) then switch turns
+- Get players turn 
+- Place symbol on the board 
+    - make sure you can't place it on a location with an existing value
+- check to see if win, draw, lose
+    - win (meets winning combos)
+    - draw (all cells are filled and no winning combinations)
+    - if one of the above then end game
+- if none of the above and cells are not filled then switch turns
 
 GAME CONTROLLER
-play the game
+- play the game
 
 
 - 3x3 grid of cells that are clickable
@@ -35,5 +37,7 @@ play the game
 - once the game is won, show a button to reset the game 
 - reset the board 
 
-winning conditions 
-- XXX or OOO in any plane
+
+TODO: 
+- Add UI
+- Add a scores module using pubsub to keep track of the scores.
