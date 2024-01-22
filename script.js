@@ -1,97 +1,175 @@
-// const GameBoard = (function() {
-    
-//     // Create board
-//     board = [];
-//     for (let i=0; i<=8; i++) {
-//         board[i] = [];
-//         board[i].push(Cell());
-//     }
-    
-//     getBoard = () => board;
+const GameBoard = (function () {
 
-//     // We take a turn by selecting a place on the board and changing the value of the cell to our symbol.
-//     dropSymbol = (location, playerSymbol) => { 
+    // Create a 3x3 board as an array
+    let board = ['','','','','','','','',''];
+    function getBoard() {
+        return board;
+    }
 
-//         // Filter the board to find the empty cells and add the player symbol to it.
-//         const availableCells = getEmptyCells();
-//         if (availableCells.length === 0) {return};
+    // We want to add a marker to a specific place on the board with the players marker
+    function addMarker(board, location) {
         
-//         // How does the board have access to this method (addPlayerSymbol) when it exists outside the function?
-//         // ANS - because you've pushed Cell() into the board, it has access to all of Cells functions.
-//         availableCells[location].addPlayerSymbol(playerSymbol);
+        // If there are no empty cells then exit
+        if (boardIsFull(board)){
+            return;
+        };
+        
+        while (board[location] !== '') {
+            
+            location = Number(prompt('There is already a marker there, enter another number between 0 - 8'));             
+        }
 
-//     };
+        return board.splice(location, 1, Players.playerMarker());
+    }
 
-//     printBoard = () => {
+    function boardIsFull(board){
 
-//         board.map(cell => {cell.getValue()});    
+        return board.filter(cell => cell === '').length === 0;
+    }
 
-//     }
+    function clearBoard() {
+
+        return board.map(cell => cell === '');
+    }
+
+   return {
+    getBoard: getBoard,
+    addMarker: addMarker, 
+    clearBoard: clearBoard,
+    boardIsFull: boardIsFull
+   }
+   
     
-//     getEmptyCells = () => {
-//         board.filter(cell => cell.isEmpty())
-//     }
+})();
 
-//     return {getBoard, dropSymbol, printBoard};
+const Players = (function() {
 
-// })();
+    const players = [
+        {
+            name: 'Player One',
+            marker: 'X'
+        },
+        {
+            name: 'Player Two',
+            marker: 'O'
+        }
+    ];
 
+    let activePlayer = players[0];
 
-
-// function Cell() {
-//     let value = 0; 
-
-//     // Change the value of the cell depending on the player
-//     addPlayerSymbol = (player) => {
-//         value = player;
-//     };
-//     // Get this value 
-//     getValue = () => value;
-
-//     return {addPlayerSymbol, getValue};
-// }
-
-// const playGame = ((playerOne = "Player One", playerTwo = "Player 2") => {
-
-//     const board = GameBoard.getBoard();
-//     const players = [
-//         {
-//             name: playerOne,
-//             symbol: 'X'
-//         },
-//         {
-//             name: playerTwo,
-//             symbol: 'O'
-//         }
-//     ];
-
-//     let activePlayer = players[0]; 
-//     getActivePlayer = () => activePlayer;
+    function getActivePlayer(){
+        return activePlayer;
+    }
     
-//     switchPlayers = () => {
-//         // Set the active equal to player 2 if the current active player is player 1.
-//         activePlayer = activePlayer === players[0] ? players[1] : players[0];
-//     };
+    function playerMarker(){
 
-//     printNewRound = () => {
-//         GameBoard.printBoard();
-//         console.log(`${getActivePlayer().name}'s turn`);
-//     }
+        return getActivePlayer().marker;
+    }
 
-//     playRound = (location) => {
-//         console.log(`Dropping ${getActivePlayer.name}'s symbol into the location ${location}...`);
-//         GameBoard.dropSymbol(location, getActivePlayer.symbol);
+    function switchPlayers(){
 
+        return activePlayer = activePlayer === players[0] ? players[1] : players[0];
+    }
 
-//     // Check winning conditions
-//     switchPlayers();
-//     printNewRound();
+    return {
+        playerMarker: playerMarker, 
+        getActivePlayer: getActivePlayer, 
+        switchPlayers: switchPlayers
+    }
 
-//     };
+})();
 
-//     printNewRound();
+// Create a method within the protoype of array that gets the indexes of our players marker
+Array.prototype.multiIndexOf = function(marker){
+    let indxs = [];
+    for (let i=0; i <= this.length - 1; i++ ) {
+        if (this[i] === marker) {
+            indxs.push(i);
+        }
+    }
+    return indxs;
+}
 
-//     return {playRound, getActivePlayer};
-// })();
+// We want to check if the player has their marker in the position required to win
+function win(board) {
 
-// const game = playGame;
+    const winningConditions = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6]
+    ];
+
+    // If the board contains the same symbol at the indexes of any of the conditions above return true
+    const xMarker = board.multiIndexOf('X'); // [0, 1, 2, 3, 7] WIN
+    const oMarker = board.multiIndexOf('O'); // [4, 5, 6, 8] LOSE
+
+    /* row = [0,1,2], for every element in row -> does the xMarker includes those elements 
+         -> so does xMarker includes every element in r
+         does [0,1,2,3,7] includes 0 and 1 and 2 YES */
+    const xWin = winningConditions.some(row => row.every( r => xMarker.includes(r)));
+    const oWin = winningConditions.some(row => row.every( r => oMarker.includes(r)));  
+
+    if (xMarker.length >= 3 && xWin) {
+        
+        return true;   
+    }
+
+    else if (oMarker.length >= 3 && oWin) {
+        
+        return true;
+    }
+    
+    return false;
+}
+
+function playRound() {
+
+    let board = GameBoard.getBoard(); // ['','','','','','','','','']
+
+    // GETTING CAUGHT IN HERE
+    while (!GameBoard.boardIsFull(board)) {
+        Players.playerMarker(); // 'X'
+        let location = Number(prompt('Pick a number between 0 - 8')); // 4, 0
+        GameBoard.addMarker(board, location);
+        
+        //Check for wins
+        if (win(board)){
+            const winMessage = `${Players.getActivePlayer().name} wins!!`;
+            alert(winMessage);
+            endGame();
+        }
+        else if (GameBoard.boardIsFull(board)){
+            const tieMessage = 'Game is a tie!'
+            alert(tieMessage);
+            endgame();
+        }
+        Players.switchPlayers();
+    }
+
+   // endgame(currentPlayer, board);
+    
+}
+
+function startGame() {
+    // clear the board
+    GameBoard.clearBoard();
+
+    // play the round
+    playRound();
+}
+
+function endgame(){
+    // if (board.filter(cell => cell === '').length !== 0)
+    // {
+    //     const winMessage = `${Players.getActivePlayer().name} wins!!`;
+    //     console.log(winMessage);
+    // }
+    GameBoard.clearBoard();
+}
+
+startGame();
