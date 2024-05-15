@@ -1,6 +1,4 @@
-
-    
-
+    document.title = "Tic Tac Toe";
     let circleTurn;
     const CIRCLE_CLASS = 'circle';
     const X_CLASS = 'x';
