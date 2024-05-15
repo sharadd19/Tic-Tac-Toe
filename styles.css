@@ -43,43 +43,51 @@
     cursor: pointer;
   }
   
+  /* removing borders around the top cells */
   .cell:first-child,
   .cell:nth-child(2),
   .cell:nth-child(3) {
     border-top: none;
   }
   
+  /* removing borders around the left cells */
   .cell:nth-child(3n + 1) {
     border-left: none;
   }
   
+  /* removing borders around the right cells */
   .cell:nth-child(3n + 3) {
     border-right: none;
   }
   
+  /* removing borders around the bottom cells */
   .cell:last-child,
   .cell:nth-child(8),
   .cell:nth-child(7) {
     border-bottom: none;
   }
   
+  /* if there is a marker placed, don't allow another marker to be placed by showing a not allowed symbol  */
   .cell.x,
   .cell.circle {
     cursor: not-allowed;
   }
   
+  /* create the colour of the marker */
   .cell.x::before,
   .cell.x::after,
   .cell.circle::before {
     background-color: black;
   }
   
+  /* create the hover state */
   .board.x .cell:not(.x):not(.circle):hover::before,
   .board.x .cell:not(.x):not(.circle):hover::after,
   .board.circle .cell:not(.x):not(.circle):hover::before {
     background-color: lightgrey;
   }
   
+  /* create the X marker */
   .cell.x::before,
   .cell.x::after,
   .board.x .cell:not(.x):not(.circle):hover::before,
@@ -90,16 +98,18 @@
     height: var(--mark-size);
   }
   
+  /* rotate the straight line so its a slant for one side of the X */
   .cell.x::before,
   .board.x .cell:not(.x):not(.circle):hover::before {
     transform: rotate(45deg);
   }
-  
+  /* rotate the straight line so its a slant for the other side of the X */
   .cell.x::after,
   .board.x .cell:not(.x):not(.circle):hover::after {
     transform: rotate(-45deg);
   }
   
+  /* create the circle marker */
   .cell.circle::before,
   .cell.circle::after,
   .board.circle .cell:not(.x):not(.circle):hover::before,
@@ -109,12 +119,14 @@
     border-radius: 50%;
   }
   
+  /* create the outer part of the circle marker */
   .cell.circle::before,
   .board.circle .cell:not(.x):not(.circle):hover::before {
     width: var(--mark-size);
     height: var(--mark-size);
   }
   
+  /* create the inner part of the circle marker */
   .cell.circle::after,
   .board.circle .cell:not(.x):not(.circle):hover::after {
     width: calc(var(--mark-size) * .7);
