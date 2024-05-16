@@ -47,11 +47,10 @@ function startGame(){
 }
 
 function handleClick(e) {
-    
-    const currentMarker = computerTurn ? CIRCLE_CLASS: X_CLASS
-    console.log(computerTurn)
-    
 
+    let currentMarker = computerTurn ? CIRCLE_CLASS: X_CLASS
+    
+    
     // Determine Player 1's turn 
     const position = e.target;
     placeMarker(position, currentMarker);        
@@ -76,21 +75,22 @@ function handleClick(e) {
     else{
         // Switch turns 
         switchTurn();
+        currentMarker = CIRCLE_CLASS;
         setBoardHoverClass();
-        
-        let playerChoiceToRemove = Number(e.target.id); // We have this so we can remove the player's choice from the available options that the computer can play in. 
-        let computerChoice = getComputerChoice(playerChoiceToRemove);
-        let computerPosition = cells[computerChoice];
-        computerPosition.classList.add(CIRCLE_CLASS);
-
+        computerMove(e, currentMarker);
         switchTurn();
         setBoardHoverClass();
-        
-
     } 
     
     
         
+}
+function computerMove(e, currentMarker){
+    let playerChoiceToRemove = Number(e.target.id); // We have this so we can remove the player's choice from the available options that the computer can play in. 
+    let computerChoice = getComputerChoice(playerChoiceToRemove);
+    let computerPosition = cells[computerChoice];
+    computerPosition.classList.add(currentMarker);
+    
 }
 
 function placeMarker(currentPlayerPosition, currentMarker){
