@@ -78,6 +78,11 @@ function handleClick(e) {
         currentMarker = CIRCLE_CLASS;
         setBoardHoverClass();
         computerMove(e, currentMarker);
+
+        if (checkWin(currentMarker)){
+            endGame(false);
+        };
+        
         switchTurn();
         setBoardHoverClass();
     } 
@@ -89,6 +94,7 @@ function computerMove(e, currentMarker){
     let playerChoiceToRemove = Number(e.target.id); // We have this so we can remove the player's choice from the available options that the computer can play in. 
     let computerChoice = getComputerChoice(playerChoiceToRemove);
     let computerPosition = cells[computerChoice];
+    computerPosition.removeEventListener('click', handleClick)
     computerPosition.classList.add(currentMarker);
     
 }
@@ -103,6 +109,7 @@ function switchTurn(){
 }
 
 function getComputerChoice(playerChoiceToRemove){
+   
     // Player's pick is removed from bucket 
     bucket = bucket.filter(number => number !== playerChoiceToRemove);
 
@@ -113,10 +120,6 @@ function getComputerChoice(playerChoiceToRemove){
     // Computer's pickis removed from the bucket 
     bucket = bucket.filter(number => number !== computerChoice);
 
-    
-    // Repeat
-    console.log('bucket', bucket)
-    console.log('computerchoice',computerChoice)
     return computerChoice;
 }
 restartButton.addEventListener('click', startGame);
