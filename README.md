@@ -1,43 +1,32 @@
-How I will go about building this game
+# Tic Tac Toe 
+_Date: Jan 2024_
 
-- Select whether you want to play with another person, or a computer
-
-BOARD
-- Create the board
-- Get the board 
-- Update the board / print the board 
-
-PLAY GAME
-- Get players turn 
-- Place symbol on the board 
-    - make sure you can't place it on a location with an existing value
-- check to see if win, draw, lose
-    - win (meets winning combos)
-    - draw (all cells are filled and no winning combinations)
-    - if one of the above then end game
-- if none of the above and cells are not filled then switch turns
-
-GAME CONTROLLER
-- play the game
+You can find the deployed website [here](https://sharadd19.github.io/Tic-Tac-Toe/)
 
 
-- 3x3 grid of cells that are clickable
-- player 1's turn (X)
-- when you click on a cell, it populates the content of that cell with X
-- disable that cell so you can't click on it and store its index so that it can be accessed later to check
-- players 2's turn (O)
-    - if computer has been selected: 
-        - computers choice must be random within the bounds of the board and not including already selected elements
-- click on a cell that hasn't been populated already to populate it with a O
-    - if player 2 clicks on players 1 selection, do nothing
-- repeat the above until all squares are populated
-- while the game is going on, we need to check winning conditions
-    - search the board to find these conditions
-    - once winning condition is found, highlight those squares, and say who won, lost or drew
-- once the game is won, show a button to reset the game 
-- reset the board 
+
+## Description 
+This project was part of one of the projects to complete in [_The Odin Project_](https://www.theodinproject.com/lessons/node-path-javascript-tic-tac-toe) course for full-stack web development. 
+
+The goal of this application was to build the Tic Tac Toe game 
+
+I have created a few js files:
+1. `console-script.js` which is a console version of the game. This is how I first began to build the game
+2. `computer-script.js` which is the main js file used in the app
+3. `script.js` which is a two player game version
 
 
-TODO: 
-- Add UI
-- Add a scores module using pubsub to keep track of the scores.
+## Built with
+- JavaScript
+- HTML
+- CSS
+
+## Key concepts and learnings
+- Modules
+- Immediately Invoked Function Expressions (IIFE)
+- DOM Manipulation
+- Prototypes and creating custom method on Array prototype
+
+## Challenges
+- Building the game in a console without a frontend
+- Determining how you can check for wins using the winning combinations array
